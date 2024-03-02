@@ -17,11 +17,5 @@ wiki.
 There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
 
-## Wiki pages
-
-Presently there are these template wiki pages:
-
-<!-- TODO: How to avoid full links? -->
-* [Template REST API](//github.com/binkley/wiki-docs/wiki/Template-REST-API)
-* [Template JSON
-  Models](//github.com/binkley/wiki-docs/wiki/Template-JSON-Models)
+You want to go to the **wiki** pages which is the purpose of this project:
+[Home wiki page](//github.com/binkley/wiki-docs/wiki)
