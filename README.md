@@ -15,4 +15,4 @@ Welcome to the GitHub repository with samples on documenting for the GitHub
 wiki.
 
 There is nothing to build or run in this repository:<br/>
-The wiki markdown is the source code.
+_The wiki markdown is the source code._
