@@ -16,3 +16,10 @@ wiki.
 
 There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
+
+## Wiki pages
+
+Presently there are these template wiki pages:
+
+* [Template REST API](./wiki/Template-REST-API)
+* [Template JSON Models](./wiki/Template-JSON-Models)
