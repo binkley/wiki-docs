@@ -21,5 +21,7 @@ _The wiki markdown is the source code._
 
 Presently there are these template wiki pages:
 
-* [Template REST API](./wiki/Template-REST-API)
-* [Template JSON Models](./wiki/Template-JSON-Models)
+<!-- TODO: How to avoid full links? -->
+* [Template REST API](//github.com/binkley/wiki-docs/wiki/Template-REST-API)
+* [Template JSON
+  Models](//github.com/binkley/wiki-docs/wiki/Template-JSON-Models)
