@@ -11,8 +11,8 @@ align="right" width="20%" height="auto"/>
 
 Howdy!
 
-Welcome to the GitHub repository with samples on documenting for the GitHub
-wiki.
+Welcome to the GitHub repository with samples on documenting REST APIs for the
+GitHub wiki.
 
 There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
