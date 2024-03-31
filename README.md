@@ -18,4 +18,5 @@ There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
 
 You want to go to the **wiki pages** which is the purpose of this project:
-[Home wiki page](//github.com/binkley/wiki-docs/wiki)
+[Home wiki page](//github.com/binkley/wiki-docs/wiki).
+(It's in the GitHub top bar with "Wiki" with an open book icon next to it 🕮.)
