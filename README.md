@@ -19,4 +19,5 @@ _The wiki markdown is the source code._
 
 You want to go to the **wiki pages** which is the purpose of this project:
 [Home wiki page](//github.com/binkley/wiki-docs/wiki).
-(It's in the GitHub top bar as "Wiki" with an open book icon next to it 🕮.)
+For any GitHub project, it's in the GitHub top bar as "🕮  Wiki" if enabled for
+the project like this one.
