@@ -10,7 +10,7 @@ align="right" width="10%" height="auto"/>
 [![license](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](http://unlicense.org/)
 
 Welcome to the GitHub repository with samples on documenting REST APIs for the
-GitHub wiki.
+GitHub wiki!
 
 There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
