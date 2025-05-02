@@ -26,8 +26,8 @@ jobs:
 
       - name: Generate PDF
         run: |
-          cd wiki
-          pandoc $(cat ../page-list.txt) -o ../wiki-docs.pdf --pdf-engine=xelatex
+          ls -l page-list.txt
+          cat page-list.txt | xargs -I{} pandoc wiki/{} -o wiki-docs.pdf --pdf-engine=xelatex
 
       - name: Upload PDF as artifact
         uses: actions/upload-artifact@v4
