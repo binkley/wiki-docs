@@ -6,17 +6,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: pandoc/latex:latest
 
     steps:
       - name: Checkout main repo
         uses: actions/checkout@v4
 
       - name: Clone wiki repo
-        run: |
-          git clone https://github.com/${{ github.repository }}.wiki.git wiki
-
-      - name: Install Pandoc
-        run: sudo apt-get install -y pandoc texlive-xetex
+        run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
 
       - name: Create page list from _Sidebar.md
         run: |
@@ -26,10 +24,10 @@ jobs:
 
       - name: Generate PDF
         run: |
-          ls -l page-list.txt
-          cat page-list.txt | xargs -I{} pandoc wiki/{} -o wiki-docs.pdf --pdf-engine=xelatex
+          files=$(awk '{ print "wiki/" $1 }' page-list.txt)
+          pandoc $files -o wiki-docs.pdf --pdf-engine=xelatex
 
-      - name: Upload PDF as artifact
+      - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
           name: wiki-docs
