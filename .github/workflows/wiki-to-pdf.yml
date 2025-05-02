@@ -25,10 +25,8 @@ jobs:
           grep '\[\[' _Sidebar.md | sed 's/.*\[\[\(.*\)\]\].*/\1.md/' > ../page-list.txt
           cd ..
 
-      - name: Generate PDF
-        run: |
-          files=$(awk '{ print "wiki/" $1 }' page-list.txt)
-          pandoc $files -o wiki-docs.pdf --pdf-engine=xelatex
+      - name: Generate PDF from sidebar
+        run: ./wiki-to-pdf.sh
 
       - name: Upload PDF
         uses: actions/upload-artifact@v4
