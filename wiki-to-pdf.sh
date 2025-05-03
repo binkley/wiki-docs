@@ -95,7 +95,7 @@ generate_pdf() {
     die "No valid Markdown files found for PDF generation."
   fi
 
-  pandoc "${PAGE_FILES[@]}" -o "$OUTPUT_FILE" --pdf-engine=xelatex \
+  pandoc --from=gfm "${PAGE_FILES[@]}" -o "$OUTPUT_FILE" --pdf-engine=xelatex \
       -V mainfont="$FONT_MAIN" \
       -V mainfontoptions="Fallback=$FONT_FALLBACK"
 }
