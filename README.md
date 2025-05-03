@@ -19,3 +19,11 @@ You want to go to the **wiki pages** which is the purpose of this project:
 [Home wiki page](//github.com/binkley/wiki-docs/wiki).
 For any GitHub project, it's in the GitHub top bar as "📖 Wiki" [when
 enabled](https://docs.github.com/en/communities/documenting-your-project-with-wikis).
+
+## Extras
+
+This repository includes the [`wiki-to-pdf.sh`] script and corresponding
+GitHub workflow in CI.
+This is **experimental** and used to test out wiki-to-PDF generation.
+You should not use this unless you are curious until it is promoted to
+production-worthy.
