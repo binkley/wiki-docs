@@ -14,7 +14,7 @@ jobs:
       - name: Install Pandoc and XeLaTeX
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc texlive-xetex git
+          sudo apt-get install -y pandoc texlive-xetex fonts-noto-core fonts-noto-unhinted fonts-noto-extra git
 
       - name: Clone wiki repo
         run: git clone https://github.com/${{ github.repository }}.wiki.git wiki

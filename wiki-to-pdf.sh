@@ -4,6 +4,9 @@
 # - Uses _Sidebar.md to determine page order
 # - Works both in CI and locally with a manually cloned wiki
 
+# Better debugging output when using `bash -x <script>`
+export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
+
 set -Eeuo pipefail  # Safe-mode: error on unset vars, pipe failures, or command errors
 
 # Read-only constants
@@ -11,6 +14,8 @@ readonly WIKI_DIR="wiki"                             # Expected name for the che
 readonly WIKI_FALLBACK_DIR="../wiki-docs.wiki"       # Fallback path for local use
 readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"        # Navigation source
 readonly OUTPUT_FILE="wiki-docs.pdf"                 # Final output PDF file
+readonly FONT_MAIN="Noto Serif"                      # Wider UNICODE support
+readonly FONT_FALLBACK="Noto Sans Symbols"           # Wider UNICODE support
 
 cleanup_symlink=false  # Whether we created a temporary symlink
 
@@ -90,7 +95,9 @@ generate_pdf() {
     die "No valid Markdown files found for PDF generation."
   fi
 
-  pandoc "${PAGE_FILES[@]}" -o "$OUTPUT_FILE" --pdf-engine=xelatex
+  pandoc "${PAGE_FILES[@]}" -o "$OUTPUT_FILE" --pdf-engine=xelatex \
+      -V mainfont="$FONT_MAIN" \
+      -V mainfontoptions="Fallback=$FONT_FALLBACK"
 }
 
 # Print an error and exit the script
