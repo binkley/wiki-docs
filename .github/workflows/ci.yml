@@ -1,7 +1,13 @@
 name: Convert Wiki to PDF
 
 on:
-  workflow_dispatch:
+  # TODO: wiki changes need a separate workflow
+  push:
+    paths-ignore:
+      - '**.md' # README and friends; NOT the same as wiki changes
+  pull_request:
+    paths-ignore:
+      - '**.md' # README and friends; NOT the same as wiki changes
 
 jobs:
   build:
