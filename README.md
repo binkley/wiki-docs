@@ -9,8 +9,10 @@ align="right" width="10%" height="auto"/>
 [![issues](https://img.shields.io/github/issues/binkley/wiki-docs.svg)](https://github.com/binkley/wiki-docs/issues/)
 [![license](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](http://unlicense.org/)
 
-Welcome to the GitHub repository with samples on documenting REST APIs for the
-GitHub wiki!
+Welcome to the GitHub repository on documenting REST APIs for the GitHub wiki!
+
+The example is for adding toppings to a pizza.
+This is similar to the traditional shopping cart but more flavorable.
 
 There is nothing to build or run in this repository:<br/>
 _The wiki markdown is the source code._
