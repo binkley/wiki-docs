@@ -19,8 +19,9 @@ readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
 readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
 readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
 readonly OUTPUT_FILE="wiki-docs.pdf"  # Final output PDF file
-readonly FONT_MAIN="Noto Serif"   # Wider UNICODE support
-readonly FONT_FALLBACK="Noto Sans Symbols"   # Wider UNICODE support
+# Better UNICODE support outside ASCII
+readonly PDF_FONT_MAIN="Noto Serif"
+readonly PDF_FONT_FALLBACK="Noto Sans Symbols"
 
 cleanup_symlink=false  # Whether we created a temporary symlink
 
@@ -103,8 +104,8 @@ generate_pdf() {
   pandoc --from=gfm "${PAGE_FILES[@]}" \
       -o "$OUTPUT_FILE" \
       --pdf-engine=xelatex \
-      -V mainfont="$FONT_MAIN" \
-      -V mainfontoptions="Fallback=$FONT_FALLBACK"
+      -V mainfont="$PDF_FONT_MAIN" \
+      -V mainfontoptions="Fallback=$PDF_FONT_FALLBACK"
 }
 
 # Print an error and exit the script
