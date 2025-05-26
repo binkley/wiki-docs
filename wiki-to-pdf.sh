@@ -1,21 +1,24 @@
 #!/usr/bin/env bash
-# Convert GitHub wiki pages into a single PDF using Pandoc
+# Convert GitHub wiki pages into a single PDF using Pandoc:
 # - Always places Home.md first
 # - Uses _Sidebar.md to determine page order
-# - Works both in CI and locally with a manually cloned wiki
+# - Works with a locally cloned wiki in both in CI and locally
 
 # Better debugging output when using `bash -x <script>`
 export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
 
-set -Eeuo pipefail  # Safe-mode: error on unset vars, pipe failures, or command errors
+# Safe-mode: error on unset vars, pipe failures, or programs/commands
+set -Eeuo pipefail
 
 # Read-only constants
-readonly WIKI_DIR="wiki"                             # Expected name for the checked-out wiki directory
-readonly WIKI_FALLBACK_DIR="../wiki-docs.wiki"       # Fallback path for local use
-readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"        # Navigation source
-readonly OUTPUT_FILE="wiki-docs.pdf"                 # Final output PDF file
-readonly FONT_MAIN="Noto Serif"                      # Wider UNICODE support
-readonly FONT_FALLBACK="Noto Sans Symbols"           # Wider UNICODE support
+readonly PROJECT="$(git rev-parse --show-toplevel)"  # Run from within a code project
+readonly PROJECT_NAME="${PROJECT##*/}"
+readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
+readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
+readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
+readonly OUTPUT_FILE="wiki-docs.pdf"  # Final output PDF file
+readonly FONT_MAIN="Noto Serif"   # Wider UNICODE support
+readonly FONT_FALLBACK="Noto Sans Symbols"   # Wider UNICODE support
 
 cleanup_symlink=false  # Whether we created a temporary symlink
 
