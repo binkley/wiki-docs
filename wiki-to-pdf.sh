@@ -11,7 +11,9 @@ export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
 set -Eeuo pipefail
 
 # Read-only constants
-readonly PROJECT="$(git rev-parse --show-toplevel)"  # Run from within a code project
+# Find the local project directory separately to help Bash better reports errors
+_project="$(git rev-parse --show-toplevel)"
+readonly PROJECT="$_project"  # Run from within a code project
 readonly PROJECT_NAME="${PROJECT##*/}"
 readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
 readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
