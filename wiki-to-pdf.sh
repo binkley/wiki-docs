@@ -11,6 +11,7 @@ export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
 set -Eeuo pipefail
 
 # Read-only constants
+readonly program="$0"  # For messages
 # Find the local project directory separately to help Bash better reports errors
 _project="$(git rev-parse --show-toplevel)"
 readonly PROJECT="$_project"  # Run from within a code project
@@ -18,7 +19,7 @@ readonly PROJECT_NAME="${PROJECT##*/}"
 readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
 readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
 readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
-readonly OUTPUT_FILE="wiki-docs.pdf"  # Final output PDF file
+readonly DEFAULT_OUTPUT_WIKI_PDF_FILE="out.pdf"
 # Better UNICODE support outside ASCII
 readonly PDF_FONT_MAIN="Noto Serif"
 readonly PDF_FONT_FALLBACK="Noto Sans Symbols"
@@ -97,12 +98,14 @@ order_pages() {
 
 # Render the Markdown files into a single PDF using Pandoc
 generate_pdf() {
+    local pdf_wiki_file="$1"
+
     if [[ ${#PAGE_FILES[@]} -eq 0 ]]; then
         die "No valid Markdown files found for PDF generation."
     fi
 
     pandoc --from=gfm "${PAGE_FILES[@]}" \
-            -o "$OUTPUT_FILE" \
+            -o "$pdf_wiki_file" \
             --pdf-engine=xelatex \
             -V mainfont="$PDF_FONT_MAIN" \
             -V mainfontoptions="Fallback=$PDF_FONT_FALLBACK"
@@ -114,28 +117,44 @@ die() {
     exit 1
 }
 
-# Usage message for --help
-usage() {
-    cat <<EOF
-Usage: $(basename "$0")
+function print_usage() {
+    cat <<EOU
+Usage: $program [-h|--help][-o|--output outfile]
+EOU
+}
 
-Converts a GitHub project wiki to a single PDF file.
+function print_help() {
+    print_usage
+    cat <<EOF
+Converts a matching GitHub repository wiki to PDF.
 
 Options:
-    --help                Show this help message
+    -h, --help          Show this message and exit
+    -o, --output=FILE   Save/overwrite PDF file (default: $DEFAULT_OUTPUT_WIKI_PDF_FILE)
 EOF
-    exit
 }
 
 # --- Execution begins here ---
 
-# Handle --help manually (before processing args)
-if [[ "${1:-}" == "--help" ]]; then usage; fi
+pdf_wiki_file="$DEFAULT_OUTPUT_WIKI_PDF_FILE"
+while getopts :ho:-: opt; do
+    # Complex, but addresses "--foo=bar" type options
+    [[ $opt == - ]] && opt=${OPTARG%%=*} OPTARG=${OPTARG#*=}
+    case $opt in
+    o | output)
+        [[ "$OPTARG" = *.pdf ]] || die "$0: $OPTARG: Not a PDF output file"
+        pdf_wiki_file="$OPTARG"
+        ;;
+    h | help) print_help ; exit 0 ;;
+    *) print_usage >&2 ;  exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
 
 # Step-by-step execution
 setup
 resolve_wiki_dir
 validate_sidebar
 order_pages
-generate_pdf
-printf "✅ PDF generated: %s\n" "$OUTPUT_FILE"
+generate_pdf "$pdf_wiki_file"
+printf "✅ PDF generated: %s\n" "$pdf_wiki_file"
