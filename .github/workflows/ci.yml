@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Refresh available fonts for PDF conversion
+      - name: Refresh container LaTeX
+        run: |
+          sudo apt update
+          sudo apt install texlive-full
+
       - name: Checkout main repo
         uses: actions/checkout@v4
 
