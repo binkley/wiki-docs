@@ -95,7 +95,9 @@ generate_pdf() {
     die "No valid Markdown files found for PDF generation."
   fi
 
-  pandoc --from=gfm "${PAGE_FILES[@]}" -o "$OUTPUT_FILE" --pdf-engine=xelatex \
+  pandoc --from=gfm "${PAGE_FILES[@]}" \
+      -o "$OUTPUT_FILE" \
+      --pdf-engine=xelatex \
       -V mainfont="$FONT_MAIN" \
       -V mainfontoptions="Fallback=$FONT_FALLBACK"
 }
@@ -111,7 +113,7 @@ usage() {
   cat <<EOF
 Usage: $(basename "$0")
 
-Converts a GitHub wiki (cloned to ./wiki or ../wiki-docs.wiki) into a single PDF using pandoc.
+Converts a GitHub project wiki to a single PDF file.
 
 Options:
   --help        Show this help message
