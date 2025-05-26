@@ -37,7 +37,7 @@ setup() {
 # Remove temp symlink if we created one
 cleanup() {
     if [[ "$cleanup_symlink" == true && -L "$WIKI_DIR" ]]; then
-        printf "🧹 Cleaning up temporary symlink: %s\n" "$WIKI_DIR"
+        printf "🧹 Cleaning up temporary directory/symlink: %s\n" "$WIKI_DIR"
         rm -f "$WIKI_DIR"
     fi
 }
