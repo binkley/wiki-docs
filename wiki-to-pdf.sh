@@ -91,7 +91,11 @@ order_pages() {
         else
             echo "::warning file=$path::File not found, skipping"
         fi
-    done < <(grep '\[\[' "$SIDEBAR_FILE" | sed 's/.*\[\[\(.*\)\]\].*/\1/')
+    done < <(
+        grep '\[\[' "$SIDEBAR_FILE" |
+            sed 's/.*\[\[\(.*\)\]\].*/\1/' |
+            grep -v 'some page title'  # Ignore the example
+    )
 
     readonly PAGE_FILES=("${pages[@]}")
 }
