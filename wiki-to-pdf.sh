@@ -20,10 +20,6 @@ readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
 readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
 readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
 readonly DEFAULT_OUTPUT_WIKI_PDF_FILE="out.pdf"
-# Better UNICODE support outside ASCII
-# TODO: Fallback fonts for missing UNICODE glyphs
-readonly PDF_FONT_MAIN="DejaVu Sans"
-readonly PDF_FONT_MONO="DejaVu Sans Mono"
 
 cleanup_symlink=false  # Whether we created a temporary symlink
 
@@ -109,11 +105,17 @@ generate_pdf() {
         die "No valid Markdown files found for PDF generation."
     fi
 
-    pandoc --from=gfm "${PAGE_FILES[@]}" \
-        --output="$pdf_wiki_file" \
-        --pdf-engine=xelatex \
-        --variable mainfont="$PDF_FONT_MAIN" \
-        --variable monofont="$PDF_FONT_MONO"
+    # Typist refers to images form the current directory
+    local wiki_files=("${PAGE_FILES[@]//wiki\/}")
+    pdf_wiki_file="$(realpath "$pdf_wiki_file")"
+
+    # Subshell so CWD is same and cleanup does not change
+    (
+        cd wiki
+        pandoc --from=gfm "${wiki_files[@]}" \
+            --output="$pdf_wiki_file" \
+            --pdf-engine=typst
+    )
 }
 
 # Print an error and exit the script
