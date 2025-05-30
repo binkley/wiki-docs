@@ -14,19 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Refresh available fonts for PDF conversion
-      - name: Refresh container LaTeX
+      - name: Install missing tools
         run: |
+          # sudo apt-get install -y pandoc texlive-xetex fonts-noto-core fonts-noto-unhinted fonts-noto-extra git
           sudo apt update
-          sudo apt install texlive-full
+          sudo apt install git pandoc
+          sudo snap install typst
 
       - name: Checkout main repo
         uses: actions/checkout@v4
-
-      - name: Install Pandoc and XeLaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc texlive-xetex fonts-noto-core fonts-noto-unhinted fonts-noto-extra git
 
       - name: Clone wiki repo
         run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
