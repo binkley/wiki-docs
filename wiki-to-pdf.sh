@@ -21,8 +21,9 @@ readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for
 readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
 readonly DEFAULT_OUTPUT_WIKI_PDF_FILE="out.pdf"
 # Better UNICODE support outside ASCII
-readonly PDF_FONT_MAIN="Noto Serif"
-readonly PDF_FONT_FALLBACK="Noto Sans Symbols"
+# TODO: Fallback fonts for missing UNICODE glyphs
+readonly PDF_FONT_MAIN="DejaVu Sans"
+readonly PDF_FONT_MONO="DejaVu Sans Mono"
 
 cleanup_symlink=false  # Whether we created a temporary symlink
 
@@ -109,10 +110,10 @@ generate_pdf() {
     fi
 
     pandoc --from=gfm "${PAGE_FILES[@]}" \
-            -o "$pdf_wiki_file" \
-            --pdf-engine=xelatex \
-            -V mainfont="$PDF_FONT_MAIN" \
-            -V mainfontoptions="Fallback=$PDF_FONT_FALLBACK"
+        --output="$pdf_wiki_file" \
+        --pdf-engine=xelatex \
+        --variable mainfont="$PDF_FONT_MAIN" \
+        --variable monofont="$PDF_FONT_MONO"
 }
 
 # Print an error and exit the script
