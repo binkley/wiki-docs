@@ -23,16 +23,10 @@ jobs:
       - name: Checkout main repo
         uses: actions/checkout@v4
 
-      - name: Clone wiki repo
-        run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
+      - name: Update wiki files
+        run: git submodule update --remote
 
-      - name: Create page list from _Sidebar.md
-        run: |
-          cd wiki
-          grep '\[\[' _Sidebar.md | sed 's/.*\[\[\(.*\)\]\].*/\1.md/' > ../page-list.txt
-          cd ..
-
-      - name: Generate PDF from sidebar
+      - name: Generate PDF
         run: ./wiki-to-pdf.sh --output=wiki-docs.pdf
 
       - name: Upload PDF

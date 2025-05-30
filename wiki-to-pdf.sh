@@ -14,44 +14,12 @@ set -Eeuo pipefail
 readonly program="$0"  # For messages
 # Find the local project directory separately to help Bash better reports errors
 _project="$(git rev-parse --show-toplevel)"
-readonly PROJECT="$_project"  # Run from within a code project
-readonly PROJECT_NAME="${PROJECT##*/}"
-readonly WIKI_DIR="wiki"  # Expected name for the checked-out wiki directory
-readonly WIKI_FALLBACK_DIR="$PROJECT/../$PROJECT_NAME.wiki"  # Fallback path for local use
-readonly SIDEBAR_FILE="$WIKI_DIR/_Sidebar.md"  # Navigation source
+readonly SIDEBAR_FILE="wiki/_Sidebar.md"  # Navigation source
 readonly DEFAULT_OUTPUT_WIKI_PDF_FILE="out.pdf"
 
-cleanup_symlink=false  # Whether we created a temporary symlink
-
-# Ensure any symlinks are cleaned up, even on failure or Ctrl+C
-trap cleanup EXIT
-
-# Placeholder for future setup logic
-setup() {
-    :  # No-op
-}
-
-# Remove temp symlink if we created one
-cleanup() {
-    if [[ "$cleanup_symlink" == true && -L "$WIKI_DIR" ]]; then
-        printf "🧹 Cleaning up temporary directory/symlink: %s\n" "$WIKI_DIR"
-        rm -f "$WIKI_DIR"
-    fi
-}
-
-# Choose the wiki source directory
-# CI: expects ./wiki to exist from git clone
-# Local: uses ../wiki-docs.wiki and symlinks it to ./wiki
-resolve_wiki_dir() {
-    if [[ ! -d "$WIKI_DIR" ]]; then
-        if [[ -d "$WIKI_FALLBACK_DIR" ]]; then
-            printf "💡 Linking %s → %s\n" "$WIKI_FALLBACK_DIR" "$WIKI_DIR"
-            ln -s "$WIKI_FALLBACK_DIR" "$WIKI_DIR"
-            cleanup_symlink=true
-        else
-            die "Wiki folder not found. Expected either:\n    - $WIKI_DIR (CI) or\n    - $WIKI_FALLBACK_DIR (local)"
-        fi
-    fi
+update_wiki() {
+    git submodule update --remote
+    printf "✅ Updated wiki locally\n"
 }
 
 # Ensure the sidebar exists
@@ -68,18 +36,18 @@ validate_sidebar() {
 order_pages() {
     local pages=()
 
-  # Prefer Home.md first
-    local home="$WIKI_DIR/Home.md"
+    # Prefer Home.md first
+    local home="wiki/Home.md"
     if [[ -f "$home" ]]; then
         pages+=("$home")
     else
         echo "::warning file=$home::Home.md not found, skipping"
     fi
 
-  # Parse [[Page Title]] from _Sidebar.md
+    # Parse [[Page Title]] from _Sidebar.md
     while read -r title; do
         local file="${title// /-}.md"   # GitHub Wiki uses dash-separated filenames
-        local path="$WIKI_DIR/$file"
+        local path="wiki/$file"
 
         [[ "$file" == "Home.md" ]] && continue  # Avoid duplication
 
@@ -159,8 +127,7 @@ done
 shift $((OPTIND - 1))
 
 # Step-by-step execution
-setup
-resolve_wiki_dir
+update_wiki
 validate_sidebar
 order_pages
 generate_pdf "$pdf_wiki_file"
