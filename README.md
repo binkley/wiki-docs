@@ -24,8 +24,19 @@ enabled](https://docs.github.com/en/communities/documenting-your-project-with-wi
 
 ## Extras
 
-This repository includes the [`wiki-to-pdf.sh`] script and corresponding
-GitHub workflow in CI.
-This is **experimental** and used to test out wiki-to-PDF generation.
-You should not use this unless you are curious until it is promoted to
-production-worthy.
+This repository includes the [`wiki-to-pdf.sh`](./wiki-to-pdf.sh) script and
+matching [action workflow in CI](./.github/workflows/ci.yml).
+It generates a single merged PDF file for your wiki repository that goes with
+your code repository.
+
+To see an example PDF:
+1. Navigate to the [Actions](https://github.com/binkley/wiki-docs/actions) tab
+   for this project.
+2. Navigate into the latest _green_ workflow run.
+3. At bottom is an "Artifacts" section and the "wiki-docs" artifact is a ZIP of
+   the PDF generated for the run.
+
+(There does not seem to be a nice way for this README to make a direct link
+into the latest workflow run and point to the ZIP or PDF.
+All artifacts are always in a compressed file to help GitHub conserve storage
+and bandwidth.)

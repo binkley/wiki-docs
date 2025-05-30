@@ -16,7 +16,6 @@ jobs:
     steps:
       - name: Install missing tools
         run: |
-          # sudo apt-get install -y pandoc texlive-xetex fonts-noto-core fonts-noto-unhinted fonts-noto-extra git
           sudo apt update
           sudo apt install git pandoc
           sudo snap install typst
