@@ -22,6 +22,23 @@ You want to go to the **wiki pages** which is the purpose of this project:
 For any GitHub project, it's in the GitHub top bar as "📖 Wiki" [when
 enabled](https://docs.github.com/en/communities/documenting-your-project-with-wikis).
 
+## Trying it out
+
+To properly clone this project you need to pick up the Git connection to the
+corresponding wiki pages, so clone like this:
+```shell
+$ git clone $REPO_URL
+$ git submodule init
+$ git submodule update
+```
+(This is what CI does.)
+
+And update locally like this:
+```shell
+$ git pull
+$ git submodule update
+```
+
 ## Extras
 
 This repository includes the [`wiki-to-pdf.sh`](./wiki-to-pdf.sh) script and
