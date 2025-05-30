@@ -20,13 +20,10 @@ jobs:
           sudo apt install git pandoc
           sudo snap install typst
 
-      - name: Checkout main repo
+      - name: Checkout main repo and wiki repo
         uses: actions/checkout@v4
-
-      - name: Update wiki files
-        run: |
-          git submodule init
-          git submodule update
+        with:
+          submodules: true
 
       - name: Generate PDF
         run: ./wiki-to-pdf.sh

@@ -24,20 +24,21 @@ enabled](https://docs.github.com/en/communities/documenting-your-project-with-wi
 
 ## Trying it out
 
-To properly clone this project you need to pick up the Git connection to the
+To properly clone this project you need to pick up the Git changes to the
 corresponding wiki pages, so clone like this:
 ```shell
-$ git clone $REPO_URL
-$ git submodule init
-$ git submodule update
+$ git clone https://github.com/binkley/wiki-docs.git --recurse-submodules
 ```
-(This is what CI does.)
+(This is what essentially CI does.)
 
 And update locally like this:
 ```shell
-$ git pull
-$ git submodule update
+$ git pull --recurse-submodules
 ```
+
+Without the `--recurse-submodules` option, you will either work with
+(potentially) outdated wiki files or manually update the `wiki/` project
+directory directly or indirectly.
 
 ## Extras
 
