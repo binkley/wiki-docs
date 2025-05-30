@@ -14,8 +14,9 @@ set -Eeuo pipefail
 readonly program="$0"  # For messages
 # Find the local project directory separately to help Bash better reports errors
 _project="$(git rev-parse --show-toplevel)"
+
+readonly DEFAULT_PDF_WIKI_FILE="${_project##*/}.pdf"
 readonly SIDEBAR_FILE="wiki/_Sidebar.md"  # Navigation source
-readonly DEFAULT_OUTPUT_WIKI_PDF_FILE="out.pdf"
 
 update_wiki() {
     git submodule update --remote
@@ -105,13 +106,13 @@ Converts a matching GitHub repository wiki to PDF.
 
 Options:
     -h, --help          Show this message and exit
-    -o, --output=FILE   Save/overwrite PDF file (default: $DEFAULT_OUTPUT_WIKI_PDF_FILE)
+    -o, --output=FILE   Save/overwrite PDF file (default: $DEFAULT_PDF_WIKI_FILE)
 EOF
 }
 
 # --- Execution begins here ---
 
-pdf_wiki_file="$DEFAULT_OUTPUT_WIKI_PDF_FILE"
+pdf_wiki_file="$DEFAULT_PDF_WIKI_FILE"
 while getopts :ho:-: opt; do
     # Complex, but addresses "--foo=bar" type options
     [[ $opt == - ]] && opt=${OPTARG%%=*} OPTARG=${OPTARG#*=}
